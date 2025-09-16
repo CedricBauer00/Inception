@@ -1,0 +1,8 @@
+setting up folder structure:
+
+cd inception
+mkdir -p secrets
+mkdir -p srcs/requirements/{nginx,mariadb,wordpress}
+touch Makefile srcs/docker-compose.yml srcs/.env
+
+view IP address: hostname -I
