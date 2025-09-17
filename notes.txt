@@ -1,0 +1,59 @@
+- must turn in files in srcs folder
+- Dockerfiles, one per service
+- Dockerfiles must be called in your docker-compose.yml by your Makefile
+- forbidden to pull ready-made Docker images or use services such as DockerHub
+
+General Requirements:
+    - The project must be completed on a Virtual Machine.
+    - Use Docker Compose to set up the infrastructure.
+    - All required configuration files must be placed in a srcs folder.
+    - A Makefile is required at the root of your directory:
+        -> It must build Docker images using docker-compose.yml.
+        -> It must set up your entire application.
+Containers & Services
+    - Each Docker image must have the same name as its corresponding service.
+    - Each service must run in a dedicated container.
+    - Containers must be built from either Alpine (penultimate stable version) or Debian (penultimate stable version).
+    - You must write your own Dockerfiles (one per service).
+    - Prohibited: Pulling prebuilt images from DockerHub (except Alpine/Debian).
+Required Services
+    1. NGINX container
+        - Must support TLSv1.2 or TLSv1.3 only.
+        - Must be the sole entry point into your infrastructure.
+        - Must be accessible only via port 443.
+    2. WordPress container
+        - Must use php-fpm.
+        - NGINX is not allowed inside this container.
+    3. MariaDB container
+        - Must contain only MariaDB.
+        - NGINX is not allowed inside this container.
+Volumes & Networking
+    - One volume for the WordPress database.
+    - One volume for WordPress website files.
+    - A docker-network to connect containers.
+    - Containers must restart automatically in case of crash.
+Database Rules
+    - WordPress database must have two users, including an administrator.
+    - Forbidden admin usernames: must not contain
+        -> admin
+        -> Admin
+        -> administrator
+        -> Administrator
+            -> (e.g., admin-123, Administrator, etc. are not allowed).
+Filesystem & Domain Rules
+    - Project volumes must be available at:
+        -> /home/<login>/data
+            -> (replace <login> with your own login).
+    - Domain name must be configured to point to local IP address:
+        -> <login>.42.fr
+            -> Example: If login is wil, then domain is wil.42.fr.
+Security Rules
+    - Prohibited:
+        -> Using the latest tag.
+        -> Storing passwords in Dockerfiles.
+        -> Storing credentials/API keys/passwords in Git.
+    - Mandatory:
+        -> Use environment variables.
+        -> Strongly recommended:
+            -> Store variables (e.g., domain name) in a .env file.
+            -> Use Docker secrets for confidential information.
