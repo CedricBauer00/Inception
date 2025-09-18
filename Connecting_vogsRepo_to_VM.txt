@@ -1,0 +1,43 @@
+Connection zu intra vogsphere herstellen:
+
+In der VM:
+    in .ssh folder (von Home aus) waren die ids (e.g. id_ed25519 & *.pub) fuer mein eigenes git repo vorhanden.
+    -> umbennant zu e.g. id_ed25519_github & *github.pub - weil wir danach aus einem host in die VM  die IDs fuer Vogsphere kopieren
+
+Von host aus:
+    scp -P 2222 ~/.ssh/id_ed25519 ~/.ssh/id_ed25519.pub cbauer@127.0.0.1:~/.ssh/
+    - requested ssh connection zu der VM ueber port 2222
+    - kopiert von seinem .ssh folder die IDs (keys - private && public) zu der VM in den .shh folder
+
+In der VM in ssh folder:
+    vorliegend: id_ed25519_github, id_ed25519_github.pub, id_ed25519, id_ed25519.pub (<- von Host kopierte Keys, die mit Vogsphere connected sind)
+    -> umbenennen zu id_ed25519 -> id_ed25519_intra; id_ed25519.pub -> id_ed25519_intra.pub - damit man untescheiden kann
+    - config file erstellen 'touch config' 
+    - 'nano config':
+     # Github connection
+        Host github.com
+                HostName github.com
+                User git
+                IdentityFile ~/.ssh/id_ed25519_github
+
+    # 42 Intra connection
+        Host vogsphere.42.fr
+                HostName Vogsphere.42.fr
+                User git
+                IdentityFile ~/.ssh/id_ed25519_intra
+
+- cd .. (Home)
+
+- rm -rf .git (mein eigenes git)
+(ls -la - check)
+
+git init
+git remote -v
+ls
+git remote add origin git@vogsphere.42heilbronn.de:vogsphere/intra-uuid-29920faf-0201-47db-885d-703b4011a96b-6922389-cbauer
+    -> connecting vogsphere repository zu der VM
+git remote -v
+
+dann alles adden, commiten und pushen...
+
+

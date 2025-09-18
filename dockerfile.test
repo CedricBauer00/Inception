@@ -1,0 +1,10 @@
+FROM        - base-image waehlen (debian 12)
+WORKDIR     - choose working directory (srcs/requirements/mariadb) (.)
+COPY / ADD  - copy data from host into container
+RUN         - run commands
+CMD         - std command - run at start of the container
+EXPOSE      - opening ports
+ENV         - setting environment variables
+
+
+
