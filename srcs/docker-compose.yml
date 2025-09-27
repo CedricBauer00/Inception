@@ -1,37 +1,64 @@
 # trying setting up for nginx
 
+# version: '3.8'
+
 services:
-   app:
+  
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx #container_name == image ???????
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     ports:
       - '443:443'
     volumes:
-      - ./data:/data
-      - ./letsencrypt:/etc/letsencrypt
-      #most likely will not work 
+      - ../secrets:/etc/letsencrypt
+      #mounts cert and ket directly into the container
+      # - ./data:/data 
       # for saving certificates?
-      #does this work? idk, ill see 
+    networks:
+      - my_network
 
-#just blueprint for the mariadb
-
-services:
+  #just blueprint for the mariadb
   mariadb:
     build: ./requirements/mariadb
     container_name:  mariadb
+    restart: unless-stopped
     volumes:
       - db_data:/var/lib/mysql
     env_file:
       - .env
-    nerworks:
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    networks:
       - my_network
 
-environment:
-  - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-  - MYSQL_USER=${DB_USER}
-  - MYSQL_PASSWORD=${DB_PASSWORD}
+  wordpress:
+    build: ./requirements/wordpress/
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    #brauche ich ein depends on?
+    restart: unless-stopped
+    volumes:
+      - wp_data:/var/www/html
+    env_file:
+      - .env
+    environment:
+      - WORDPRESS_DB_HOST=mariadb
+      - WORDPRESS_DB_USER=${DB_USER}
+      - WORDPRESS_DB_PASSWORD=${DB_PASSWORD}
+      - WORDPRESS_DB_NAME=wordpress
+    networks:
+      - my_network
+    
+volumes:
+  db_data:
+  wp_data:
 
-services:
-  # for Wordpress
+networks:
+  my_network:
 
-# each service is a seperate Container - ??
+  # worpress_data:/var/www/html:ro./nginx/ssl:/etc/ssl/:ro ???? research!

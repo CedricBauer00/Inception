@@ -4,12 +4,16 @@ FROM debian:bookworm
 RUN apt-get update -y && apt-get install mariadb-server -y
 #updating apt && installing mariadb
 
-COPY db1.sql /docker-entrypoint-initdb.d/db1.sql
+COPY init.sh /init.sh
+RUN chmod +x /init.sh
+ENTRYPOINT ["/init.sh"]
+
+#COPY db1.sql /docker-entrypoint-initdb.d/db1.sql
+#Kopiert die db1.sql Datei in das Verzeichnis, in dem MariaDB beim Start nach Initialisierungsskripten sucht
 
 RUN sed -i 's/bind-address\s*=.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.conf
 
-CMD ["/usr/bin/mysql_safe"]
-
+#CMD ["mysqld"]
 
 
 
