@@ -57,3 +57,24 @@ Security Rules
         -> Strongly recommended:
             -> Store variables (e.g., domain name) in a .env file.
             -> Use Docker secrets for confidential information.
+
+
+NGINX + WORDPRESS + MARIS_DB
+
+🔗 5. Wie hängt das alles zusammen?
+
+Stell dir vor, jemand ruft https://login.42.fr/blog auf:
+
+Browser (Client) → schickt HTTPS-Anfrage an NGINX.
+
+NGINX → sieht: Datei ist PHP (index.php). → Leitet an PHP-FPM weiter (über FastCGI).
+
+PHP-FPM → führt den PHP-Code von WordPress aus.
+
+WordPress → fragt: „Brauche ich Daten aus der DB?“ → Verbindet sich mit MariaDB.
+
+MariaDB → liefert die Daten zurück (z. B. Blog-Inhalt).
+
+WordPress (über PHP-FPM) → erzeugt fertiges HTML.
+
+NGINX → liefert das HTML an den Browser zurück.

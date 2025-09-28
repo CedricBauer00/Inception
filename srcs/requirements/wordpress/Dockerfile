@@ -19,14 +19,23 @@ RUN wget https://wordpress.org/latest.tar.gz \
     && rm latest.tar.gz
 # downloads and extracts the latest WordPress version into the working directory
 
-COPY . ./
+COPY php.ini /etc/php/8.2/fpm/php.ini
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+# COPY . ./
 # SO???
 
 #COPY ./srcs/requirements/wordpress/ ./
 # Kopiert den Inhalt des aktuellen Verzeichnisses (srcs/requirements/wordpress/) in das Arbeitsverzeichnis (/var/www/html) im Container
 
-RUN sed -i 's/listen = .*/listen = 9000/' /etc/php/*/fpm/pool.d/www.conf
+RUN sed -i 's/listen = .*/listen = 9000/' /etc/php/*/fpm/pool.d/www.conf \
+    && sed -i 's/listen.owner = .*/listen.owner = www-data/' /etc/php/*/fpm/pool.d/www.conf \
+    && sed -i 's/listen.group = .*/listen.group = www-data/' /etc/php/*/fpm/pool.d/www.conf
 # Aendert die Listen-Port-Konfiguration in der PHP-FPM Konfigurationsdatei auf 9000
+EXPOSE 9000
+
+ENTRYPOINT [ "/entrypoint.sh" ]
 
 CMD ["php-fpm", "-F"]  
 # Startet den PHP FastCGI Process Manager im Vordergrund

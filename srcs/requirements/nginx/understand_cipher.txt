@@ -1,0 +1,52 @@
+🔐 1. Was sind Cipher Suites?
+
+Eine Cipher Suite ist eine Art „Baukasten“ von Algorithmen, die bestimmen, wie genau die Verschlüsselung in einer TLS-Verbindung abläuft.
+
+Eine Suite besteht typischerweise aus 4 Bausteinen:
+
+Schlüsselaustausch (Key Exchange) – Wie vereinbaren Client & Server den gemeinsamen Sitzungsschlüssel? (z. B. ECDHE)
+
+Authentifizierung – Wie stellt man sicher, dass der Server echt ist? (z. B. RSA, ECDSA)
+
+Verschlüsselung – Welcher Algorithmus verschlüsselt die Daten? (z. B. AES, ChaCha20)
+
+Integrität – Wie wird sichergestellt, dass die Daten nicht manipuliert wurden? (z. B. SHA256, SHA384)
+
+➡️ Beispiel einer Cipher Suite:
+
+TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+
+
+Das heißt:
+
+ECDHE = elliptische Diffie-Hellman für Schlüsselaustausch
+
+RSA = für Authentifizierung
+
+AES_256_GCM = Datenverschlüsselung mit AES im Galois/Counter Mode (256-Bit)
+
+SHA384 = Hash für Integritätsprüfung
+
+👤 2. Wer ist der Client?
+
+Der Client ist der, der die Verbindung aufbaut – in deinem Fall meistens ein Webbrowser (Chrome, Firefox, Safari …).
+
+Der Client sagt: „Hallo Server, ich möchte über TLS sprechen, hier sind die Cipher Suites, die ich kann.“
+
+Der Server (dein NGINX) antwortet: „Okay, wir verwenden die Suite X.“
+
+⚖️ 3. Was macht ssl_prefer_server_ciphers on;?
+
+Standardmäßig darf der Client (Browser) bestimmen, welche Suite genutzt wird – und er könnte sich für eine unsichere, schwächere Suite entscheiden, die er noch unterstützt.
+
+Mit ssl_prefer_server_ciphers on; zwingst du NGINX, die stärkste und sicherste Suite aus seiner eigenen Konfiguration auszuwählen.
+
+Damit schützt du dich vor Angriffen, die Clients absichtlich auf schwache Verschlüsselung „herunterhandeln“ (Downgrade-Angriffe).
+
+🎯 4. Kurz zusammengefasst
+
+Cipher Suites = Paket aus Algorithmen für Schlüsselaustausch, Authentifizierung, Verschlüsselung, Integrität.
+
+Client = derjenige, der sich verbindet (Browser, App …).
+
+ssl_prefer_server_ciphers on; = dein Server wählt die Cipher-Suite → mehr Sicherheit, weil du sicherstellst, dass immer starke Verschlüsselung benutzt wird.

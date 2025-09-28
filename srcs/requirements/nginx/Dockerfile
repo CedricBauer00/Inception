@@ -7,7 +7,7 @@ RUN apt-get update -y && apt-get install -y nginx openssl && rm -rf /var/lib/apt
 
 # include nginx configuration file
 
-COPY /nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 CMD ["nginx", "-g", "daemon off;"]
 
