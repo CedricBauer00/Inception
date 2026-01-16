@@ -3,6 +3,11 @@ set -e
 
 echo "Starting MariaDB initialisation..."
 
+
+mkdir -p /run/mysqld
+chown -R mysql:mysql /run/mysqld
+
+
 # MariaDB initing if neccessary
 
 if [ ! -d "/var/lib/mysql/mysql" ]; then
@@ -12,19 +17,39 @@ fi
 
 service mariadb start
 
-sleep 5
+sleep 10
 
 echo "setting up database and user..."
 
-mysql -u root <<-EOSQL
-ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';
-CREATE DATABASE IF NOT EXISTS wordpress;
-CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
-GRANT ALL PRIVILEGES ON wordpress.* TO '${DB_USER}'@'%';
-FLUSH PRIVILEGES;
-EOSQL
+# mysql -u root <<-EOSQL
+# ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';
+# CREATE DATABASE IF NOT EXISTS wordpress;
+# CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+# GRANT ALL PRIVILEGES ON wordpress.* TO '${DB_USER}'@'%';
+# FLUSH PRIVILEGES;
+# EOSQL
+
+echo "here"
+echo "db_password = ${DB_USER}"
+echo "${DB_PASSWORD}"
+echo "${DB_USER}"
+
+
+# echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}'" >> db.sql
+echo "CREATE DATABASE IF NOT EXISTS database;" >> db.sql
+echo "CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';" >> db.sql 
+echo "GRANT ALL PRIVILEGES ON database.* TO '${DB_USER}'@'%';" >> db.sql
+echo "FLUSH PRIVILEGES;" >> db.sql
+
+mysql < db.sql
+
 
 echo "Database setup complerte!"
+sleep 2
+service mariadb stop
 
-service mysql stop
+echo "here2"
+sleep 2
+# FALSCH: exec mariadb --user=mysql
+# RICHTIG:
 exec mysqld --user=mysql

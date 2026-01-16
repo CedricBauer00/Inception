@@ -9,8 +9,10 @@ RUN apt-get update -y && apt-get install mariadb-server -y
 RUN sed -i 's/bind-address\s*=.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 COPY init.sh /init.sh
+RUN chmod +x /init.sh
 
-# RUN chmod +x /init.sh unnecessary
+EXPOSE 3306
+
 
 ENTRYPOINT ["/init.sh"]
 
@@ -20,7 +22,7 @@ ENTRYPOINT ["/init.sh"]
 
 #CMD ["mysqld"]
 
-EXPOSE 3306
+
 
 
 # !!!COPILOT Copy, just note for later

@@ -1,4 +1,4 @@
-# waiting for mariadb
+#!/bin/bash
 echo "Waiting for MariaDB to be ready..."
 while ! mysqladmin ping -h"$WORDPRESS_DB_HOST" --silent; do
     sleep 1
@@ -13,10 +13,10 @@ if [ ! -f wp-config.php ]; then
     cp wp-config-sample.php wp-config.php
 
     # setting database settings in wp-config.php
-    sed -i "s/database_name_here/$WORDPRESS_DB_NAME/g" wp-config.php
-    sed -i "s/username_here/$WORDPRESS_DB_USER/g" wp-config.php
-    sed -i "s/password_here/$WORDPRESS_DB_PASSWORD/g" wp-config.php
-    sed -i "s/localhost/$WORDPRESS_DB_HOST/g" wp-config.php
+    sed -i "s/database_name_here/database/g" wp-config.php
+    sed -i "s/username_here/$DB_USER/g" wp-config.php
+    sed -i "s/password_here/$DB_PASSWORD/g" wp-config.php
+    sed -i "s/localhost/mariadb/g" wp-config.php
 
     echo "WordPress configuration created!"
 fi
