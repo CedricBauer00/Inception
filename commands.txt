@@ -6,3 +6,12 @@ mkdir -p srcs/requirements/{nginx,mariadb,wordpress}
 touch Makefile srcs/docker-compose.yml srcs/.env
 
 view IP address: hostname -I
+
+
+
+#######################
+
+sudo -v //fuer laengere zeit sudo ohne passwort
+sudo apt install docker.io
+sudo systemctl enable --now docker
+docker --version
