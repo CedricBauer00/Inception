@@ -7,6 +7,13 @@ RUN apt-get update -y && apt-get install -y nginx openssl && rm -rf /var/lib/apt
 
 # include nginx configuration file
 
+RUN mdkir -p /etc/nginx/ssl
+
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/nginx/ssl/inception.key \
+    -out /etc/nginx/ssl/inception.crt \
+    -subj "CN=cbauer.42.fr"
+
 COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 443
