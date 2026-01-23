@@ -2,8 +2,7 @@
 set -e
 
 echo "Starting MariaDB initialisation..."
-
-
+                                                                                                                                                  
 mkdir -p /run/mysqld
 chown -R mysql:mysql /run/mysqld
 
@@ -37,9 +36,9 @@ echo "${DB_USER}"
 
 
 # echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}'" >> db.sql
-echo "CREATE DATABASE IF NOT EXISTS database;" >> db.sql
+echo "CREATE DATABASE IF NOT EXISTS ${DATABASE_NAME};" >> db.sql
 echo "CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';" >> db.sql 
-echo "GRANT ALL PRIVILEGES ON database.* TO '${DB_USER}'@'%';" >> db.sql
+echo "GRANT ALL PRIVILEGES ON ${DATABASE_NAME}.* TO '${DB_USER}'@'%';" >> db.sql
 echo "FLUSH PRIVILEGES;" >> db.sql
 
 mysql < db.sql

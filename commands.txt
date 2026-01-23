@@ -15,3 +15,10 @@ sudo -v //fuer laengere zeit sudo ohne passwort
 sudo apt install docker.io
 sudo systemctl enable --now docker
 docker --version
+
+
+
+in docker containers:
+SHOW DATABASES;
+SELECT user, host FROM mysql.user;
+docker exec -it mariadb bash
