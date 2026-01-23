@@ -6,7 +6,7 @@ echo "Waiting for MariaDB to be ready..."
 # echo "MariaDB is ready!"
 
 
-sleep 5
+sleep 20
 
 cd /var/www/html
 
@@ -15,15 +15,13 @@ if [ ! -f wp-config.php ]; then
     echo "Creating WordPress configuration..."
 
     wp core download --allow-root
-
     # creating wp-config.php from ep-config-sample.php
-    cp wp-config-sample.php wp-config.php
-
-    # setting database settings in wp-config.php
-    sed -i "s/database_name_here/database/g" wp-config.php
-    sed -i "s/username_here/$DB_USER/g" wp-config.php
-    sed -i "s/password_here/$DB_PASSWORD/g" wp-config.php
-    sed -i "s/localhost/mariadb/g" wp-config.php
+	wp config create \
+        	--dbname=$DB_NAME \
+      		--dbuser=$DB_USER \
+        	--dbpass=$DB_PASSWORD \
+        	--dbhost=$WORDPRESS_DB_HOST \
+        	--allow-root
 
     wp core install \
         --url=$DOMAIN_NAME \

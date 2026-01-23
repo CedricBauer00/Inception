@@ -7,6 +7,7 @@ echo "Starting MariaDB initialisation..."
 mkdir -p /run/mysqld
 chown -R mysql:mysql /run/mysqld
 
+sed -i 's/^bind-address\s*=.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
 
 # MariaDB initing if neccessary
 
@@ -44,7 +45,7 @@ echo "FLUSH PRIVILEGES;" >> db.sql
 mysql < db.sql
 
 
-echo "Database setup complerte!"
+echo "Database setup complete!"
 sleep 2
 service mariadb stop
 
