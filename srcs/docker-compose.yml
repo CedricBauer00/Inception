@@ -1,6 +1,3 @@
-# trying setting up for nginx
-
-version: '3.8'
 
 services:
   
@@ -13,6 +10,7 @@ services:
       - '443:443'
     volumes:
       - ../secrets:/etc/letsencrypt
+      - wp_data:/var/www/html
       #mounts cert and ket directly into the container
       # - ./data:/data 
       # for saving certificates?
@@ -30,6 +28,7 @@ services:
       - .env
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
     networks:
@@ -48,17 +47,43 @@ services:
       - .env
     environment:
       - WORDPRESS_DB_HOST=mariadb
+      - WORDPRESS_DB_NAME=${DATABASE_NAME}
       - WORDPRESS_DB_USER=${DB_USER}
       - WORDPRESS_DB_PASSWORD=${DB_PASSWORD}
-      - WORDPRESS_DB_NAME=wordpress
+      #- WORDPRESS_DB_NAME=wordpress
     networks:
       - my_network
+  
+# secrets:
+  #path von secrets dir
     
 volumes:
   db_data:
+    driver: local #safe data locally/ cloud/network
+    driver_opts:
+      type: none
+      o: bind #bind mount
+      device: /home/cbauer/data/mariadb # absolut path on host
+  
   wp_data:
+    driver: local
+    driver_opts:
+      type: none # kein specific type 
+      o: bind # wir binden einen folder
+      device: /home/cbauer/data/wordpress # absolut path on host
 
 networks:
   my_network:
-    driver: bridge
+    driver: bridge 
+    # alle container in netzwerk bekommen eigene, interne IP adresse 
+    # nach aussen teilen sie sich Host IP adresse -> private network 
+    # haben feste ports & IP adressen - exception nginx - port forwarding
+
+
   # worpress_data:/var/www/html:ro./nginx/ssl:/etc/ssl/:ro ???? research!
+
+
+# secrets: extrea dir 
+# define secrets - existent
+# access secrets von docker compose aus
+# 

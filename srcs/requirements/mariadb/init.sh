@@ -29,26 +29,17 @@ echo "setting up database and user..."
 # FLUSH PRIVILEGES;
 # EOSQL
 
-echo "here"
-echo "db_password = ${DB_USER}"
-echo "${DB_PASSWORD}"
-echo "${DB_USER}"
-
-
 # echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}'" >> db.sql
-echo "CREATE DATABASE IF NOT EXISTS ${DATABASE_NAME};" >> db.sql
-echo "CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';" >> db.sql 
-echo "GRANT ALL PRIVILEGES ON ${DATABASE_NAME}.* TO '${DB_USER}'@'%';" >> db.sql
+echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};" >> db.sql
+echo "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';" >> db.sql 
+echo "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';" >> db.sql # fehlt mir hier ein passwort?
 echo "FLUSH PRIVILEGES;" >> db.sql
 
 mysql < db.sql
 
-
-echo "Database setup complete!"
 sleep 2
 service mariadb stop
 
-echo "here2"
 sleep 2
 # FALSCH: exec mariadb --user=mysql
 # RICHTIG:
