@@ -29,10 +29,12 @@ echo "setting up database and user..."
 # FLUSH PRIVILEGES;
 # EOSQL
 
-# echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}'" >> db.sql
 echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};" >> db.sql
 echo "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';" >> db.sql 
-echo "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';" >> db.sql # fehlt mir hier ein passwort?
+echo "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';" >> db.sql
+echo "CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';" >> db.sql
+echo "ALTER USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';" >> db.sql
+echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;" >> db.sql
 echo "FLUSH PRIVILEGES;" >> db.sql
 
 mysql < db.sql
@@ -44,3 +46,5 @@ sleep 2
 # FALSCH: exec mariadb --user=mysql
 # RICHTIG:
 exec mysqld --user=mysql
+
+# echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';" >> db.sql

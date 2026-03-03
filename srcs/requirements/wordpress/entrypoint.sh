@@ -21,10 +21,10 @@ if [ ! -f wp-config.php ]; then
     wp core download --allow-root
     # creating wp-config.php from ep-config-sample.php
 	wp config create \
-        	--dbname=$WP_DB_NAME \
-      		--dbuser=$WP_DB_USER \
-        	--dbpass=$WP_DB_PASSWORD \
-        	--dbhost=$WP_DB_HOST \
+        	--dbname=$WORDPRESS_DB_NAME \
+      		--dbuser=$WORDPRESS_DB_USER \
+        	--dbpass=$WORDPRESS_DB_PASSWORD \
+        	--dbhost=$WORDPRESS_DB_HOST \
         	--allow-root
 
     wp core install \

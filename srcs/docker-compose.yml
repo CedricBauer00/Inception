@@ -5,6 +5,8 @@ services:
     build: ./requirements/nginx
     container_name: nginx #container_name == image ???????
     # image: 'jc21/nginx-proxy-manager:latest'
+    depends_on:
+      - wordpress
     restart: unless-stopped
     ports:
       - '443:443'
