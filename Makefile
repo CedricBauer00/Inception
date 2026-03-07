@@ -17,16 +17,16 @@ up:
 down:
 	$(COMPOSE) down
 
-clean:	down
+clean:
 	$(COMPOSE) down --volumes --rmi all
 #--volumes // sollen Datenbank inhalte auch geloescht werden?
 
-re: clean all
+re: fclean all
 
 fclean: clean
 	$(COMPOSE) down --volumes --rmi all --remove-orphans
 	docker system prune -af
-
+	docker volume prune -f
 	sudo rm -rf /home/cbauer/data/wordpress
 	sudo rm -rf /home/cbauer/data/mariadb
 	
