@@ -5,5 +5,9 @@ RUN apt-get update -y && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/www/adminer
-RUN wget "htpps://www.adminer.org/latest.php" -O /var/www/adminer/index.php
-RUN sed -i 's./listen = .*listen = 8080/' /etc/php/*fpm/pool.d/www.conf
+RUN wget "https://www.adminer.org/latest.php" -O /var/www/adminer/index.php
+
+EXPOSE 8080
+
+RUN mkdir -p /run/php
+CMD ["php", "-S", "0.0.0.0:8080", "-t", "/var/www/adminer"]

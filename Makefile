@@ -27,8 +27,8 @@ fclean: clean
 	$(COMPOSE) down --volumes --rmi all --remove-orphans
 	docker system prune -af
 	docker volume prune -f
-	sudo rm -rf /home/cbauer/data/wordpress
-	sudo rm -rf /home/cbauer/data/mariadb
+# 	sudo rm -rf /home/cbauer/data/wordpress
+# 	sudo rm -rf /home/cbauer/data/mariadb
 	
 #prune deletes unused data
 # -af delte all unused images - force

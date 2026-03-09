@@ -51,8 +51,8 @@ services:
       - my_network
   
   adminer:
-    # build: ./requirements/bonus/adminer
-    image: adminer
+    build: ./requirements/bonus/adminer
+    # image: adminer
     container_name: adminer
     depends_on:
       - mariadb
