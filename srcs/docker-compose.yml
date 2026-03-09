@@ -1,25 +1,19 @@
-
 services:
   
   nginx:
     build: ./requirements/nginx
-    container_name: nginx #container_name == image ???????
-    # image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx
     depends_on:
-      - wordpress
+      - wordpress # fuer connectgion port 9000
     restart: unless-stopped
     ports:
       - '443:443'
     volumes:
-      - ../secrets:/etc/letsencrypt
-      - wp_data:/var/www/html
-      #mounts cert and ket directly into the container
-      # - ./data:/data 
-      # for saving certificates?
+      # - ../secrets:/etc/letsencrypt
+      - wp_data:/var/www/html #geben location von volumes an nginx weiter
     networks:
       - my_network
 
-  #just blueprint for the mariadb
   mariadb:
     build: ./requirements/mariadb
     container_name:  mariadb
@@ -56,47 +50,32 @@ services:
     networks:
       - my_network
   
-  adminer:
-    build: ./requirements/bonus/adminer
-    container_name: adminer
-    depends_on:
-      - maraidb
-    restart: unless-stopped
-    ports:
-      - '8080:8080'
-    networks:
-      - my_network
-  
-# secrets:
-  #path von secrets dir
+  # adminer:
+  #   build: ./requirements/bonus/adminer
+  #   container_name: adminer
+  #   depends_on:
+  #     - maraidb
+  #   restart: unless-stopped
+  #   ports:
+  #     - '8080:8080'
+  #   networks:
+  #     - my_network
     
 volumes:
   db_data:
-    driver: local #safe data locally/ cloud/network
+    driver: local
     driver_opts:
       type: none
-      o: bind #bind mount
-      device: /home/cbauer/data/mariadb # absolut path on host
+      o: bind
+      device: /home/cbauer/data/mariadb
   
   wp_data:
     driver: local
     driver_opts:
-      type: none # kein specific type 
-      o: bind # wir binden einen folder
-      device: /home/cbauer/data/wordpress # absolut path on host
+      type: none
+      o: bind
+      device: /home/cbauer/data/wordpress
 
 networks:
   my_network:
-    driver: bridge 
-    # alle container in netzwerk bekommen eigene, interne IP adresse 
-    # nach aussen teilen sie sich Host IP adresse -> private network 
-    # haben feste ports & IP adressen - exception nginx - port forwarding
-
-
-  # worpress_data:/var/www/html:ro./nginx/ssl:/etc/ssl/:ro ???? research!
-
-
-# secrets: extrea dir 
-# define secrets - existent
-# access secrets von docker compose aus
-# 
+    driver: bridge

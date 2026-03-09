@@ -2,13 +2,6 @@
 set -e
 
 echo "Starting MariaDB initialisation..."
-                                                                                                                                                  
-# mkdir -p /run/mysqld
-# chown -R mysql:mysql /run/mysqld
-
-sed -i 's/^bind-address\s*=.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
-
-# MariaDB initing if neccessary
 
 if [ ! -d "/var/lib/mysql/mysql" ]; then
     echo "Initializing MariaDB..."
@@ -29,8 +22,6 @@ echo "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;" >> db.sql
 echo "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';" >> db.sql 
 echo "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';" >> db.sql
 echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${MYSQL_ROOT_PASSWORD}');" >> db.sql
-# echo "ALTER USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';" >> db.sql
-# echo "DROP USER IF EXISTS 'root'@'localhost';" >> db.sql
 echo "FLUSH PRIVILEGES;" >> db.sql
 
 mysql -u root < db.sql
@@ -41,14 +32,7 @@ sleep 2
 mysqladmin -u root -p${MYSQL_ROOT_PASSWORD} shutdown
 sleep 2
 
-# else
-#     echo "Mariadb ist already initialized, skipping setup."
-# fi
-
-# exec mysqld --user=mysql
 exec mysqld_safe --datadir=/var/lib/mysql
-
-# echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';" >> db.sql
 
 # docker exec -it mariadb bash
 # mysql -u root

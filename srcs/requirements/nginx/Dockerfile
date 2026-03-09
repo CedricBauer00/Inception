@@ -1,9 +1,6 @@
 FROM debian:bookworm
 
-# install nginx and openssl
 RUN apt-get update -y && apt-get install -y nginx openssl && rm -rf /var/lib/apt/lists/*
-
-# includ certificate and key; because secrets folder mounted into docker-compose.yml
 
 # include nginx configuration file
 

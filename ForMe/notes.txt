@@ -77,4 +77,22 @@ MariaDB → liefert die Daten zurück (z. B. Blog-Inhalt).
 
 WordPress (über PHP-FPM) → erzeugt fertiges HTML.
 
-NGINX → liefert das HTML an den Browser zurück.
+NGINX → liefert das HTML an den Browser zurück
+
+
+
+
+
+diatrobuthek
+
+openssl
+
+bind mounts
+
+deamons
+
+when using network: host or link or --link forbidden??
+
+PID 1 for docker files
+
+domain name must point to local ip adress
