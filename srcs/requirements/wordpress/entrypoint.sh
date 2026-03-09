@@ -1,13 +1,8 @@
 #!/bin/bash
 echo "Waiting for MariaDB to be ready..."
 echo "Waiting for MariaDB connection on host: $WORDPRESS_DB_HOST ..."
-# while ! mysqladmin ping -h"$WORDPRESS_DB_HOST" --silent; do
-#     sleep 1
-# done
-# echo "MariaDB is ready!"
 
-
-while ! mariadb -h$WORDPRESS_DB_HOST -u$WORDPRESS_DB_USER -p$WORDPRESS_DB_PASSWORD $WORDPRESS_DB_NAME --silent; do
+while ! mariadb -h$WORDPRESS_DB_HOST -u$WORDPRESS_DB_USER -p$WORDPRESS_DB_PASSWORD $WORDPRESS_DB_NAME --silent; do # try logging in, if fail
     echo "MariaDB is not reachable yet... Retrying in 3s"
     sleep 3
 done
