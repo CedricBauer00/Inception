@@ -4,22 +4,38 @@ heisst diese Zeile, dass er bind-address\s*=.* danach sucht in der 50-server.cnf
 
 
 2. was heisst set -e?
+#if exit code != 0 - abort
+
 3. er sagt ja wenn /var/lib/mysql/mysql nicht existiert, dann mysql_install_db --user=mysql --datadir=/var/lib/mysql > /dev/null mach das. Aber was ist die /var/lib/mysql/mysql, fuer was brauichst man sie? 
+# folder der internen Datenbank (safes Users, permissions, ...) - if not existing, mariadb has never been initialised
+
 4. --user=mysql --datadir=/var/lib/mysql was sind das fuer flags?
+#--user=mysql creates database as linux user, not as root
+# --datadir=/var/lib/mysql safes database files in this folder
+
 5. while ! mysqladmin ping --silent 2>/dev/null; do
     sleep 1
 done hier sagt er ja einfach, wenn mysqladmin noch nicht ready ist, sleep 1 oder?
-6. kannst du mir zu jeder dieser Zeilen eine erklaerung schreiben?
-echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};" >> db.sql
-echo "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';" >> db.sql 
-echo "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';" >> db.sql
-echo "FLUSH PRIVILEGES;" >> db.sql
-7. mysql -u root < db.sql das heisst doch, dass man die alles aus dem file in mysql reingibt, die mysql hat root permissions? oder?
-8. warum wird der service erst gestartet und dann wieder gestoppt am ende der init.sh?
-9. hier wird dann ja bsaically die mysql ausgefuehrt oder?
-10. was heisst diese hier --datadir=/var/lib/mysql?
-11. was ist das, eine Flag? --datadir=/var/lib/mysql?
+# checks if Mariadb is ready
 
+6. kannst du mir zu jeder dieser Zeilen eine erklaerung schreiben?
+echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};" >> db.sql # creates wordpress database if not existing
+echo "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';" >> db.sql  # creates database User, '@'%' -> everyone can connect, not only localhost
+echo "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';" >> db.sql # grants permissions to database
+echo "FLUSH PRIVILEGES;" >> db.sql
+
+7. mysql -u root < db.sql das heisst doch, dass man die alles aus dem file in mysql reingibt, die mysql hat root permissions? oder?
+# SQL commands redirect into mysql - execute as root 
+
+8. warum wird der service erst gestartet und dann wieder gestoppt am ende der init.sh?
+# stops for clean structure - will be restartet in exec
+
+9. hier wird dann ja bsaically die mysql ausgefuehrt oder?mysqld_safe, warum heisst es mysql_safe?
+10. was heisst diese hier --datadir=/var/lib/mysql?
+# process runs as PID1
+
+11. was ist das, eine Flag? --datadir=/var/lib/mysql?
+# JA - info für command
 
 Nginx
 
