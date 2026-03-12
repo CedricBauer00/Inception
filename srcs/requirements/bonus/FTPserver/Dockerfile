@@ -7,7 +7,7 @@ FROM debian:bookworm
 # neccessary for running Linux
 RUN apt-get update -y && apt-get install -y \
     vsftpd \
-    && rm -f /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
@@ -17,4 +17,4 @@ EXPOSE 21 21100-21110
 # 21 Datenkanal - Steuerung
 # 21100-21100 Datenkanal - data transfer
 
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

@@ -1,0 +1,35 @@
+#FTP server
+
+cat > /etc/vsftpd.conf <<EOF #create .conf, opens heredoc
+listen=YES                  // vsftpd eigenstaendiger Dienst 
+listen_port=21              // listens to port 21
+anonymous_enable=NO         // no access for anonymous user
+local_enable=YES            // only local linux user can login
+write_enable=YES            // allowed to upload and change files
+local_umask=022
+chroot_local_user=YES       // cannot change directory
+allow_writeable_chroot=YES  // allows to write in chroot 
+pasv_enable=YES             // passive mode activated
+pasv_min_port=21100         // lowest port for data transfer
+pasv_max_port=21100         // highest port for data transfer
+pasv_address=127.0.0.1      // IP address for client
+userlist_enable=YES         // only user form list can login
+userlist_file=/etc/vsftpd.userlist // Path to user list
+userlist_deny=NO            // whitelist
+seccomp_sandbox=NO          // deactivates sandbox
+EOF
+
+
+#FTP commands
+ls 
+get wp-config.php //download file
+put style.css // upload file
+delete file.txt //delete file
+cd wp-content // change directory
+bye // disconnect
+
+
+# Remote Dictionary server - temporary memory - safes data in cache (in RAM) to not always get the data from database.
+# Needs to process everything requested by the browser - slow
+# Cache makes it easily accessible - fastcgi_script_name
+# Cache contains copies - need to be cleaned afterwards
