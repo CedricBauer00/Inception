@@ -81,6 +81,8 @@ Nginx - nginx.conf
 5 .ssl_certificate ...nginx.crt;	Zertifikatspfad
 ssl_certificate_key ...nginx.key;	Private-Key-Pfad 
 warum braucht der Server das Certificate und den Key?
+#   - ssl_certificate: öffentlicher Ausweis - contains Domain & public key
+#   - ssl_certificate_key only server has this key - identfies that he belongs to certificate at TSL handshake
 6. root /var/www/html; # <- volume aus docker-compose.yml
     ist jetzt im container wordpress der nginx root?
 
