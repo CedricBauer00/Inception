@@ -39,26 +39,69 @@ echo "FLUSH PRIVILEGES;" >> db.sql
 
 Nginx
 1. opensll ist doch das Verschlüsselungsprotokoll oder?
-
-2. warum brauchen wir den folder /etc/nginx/sll? werden da die ssl certificates und der Key gespeichert?
-
+# nicht das Verschlüsselungsprotokoll, sondern die Library/Toolset.
+#TSL ist Protokoll
+# OpenSSL erzeugt Certificates/Keys & kann TSL Verbindungen aufbauen
+2. warum brauchen wir den folder /etc/nginx/ssl? werden da die ssl certificates und der Key gespeichert?
+# JA
 3. was ist die -p flag bei mkdir?
-
+# -p erstellt übergeordnete Ordner, falls diese noch nicht erstellt wurden
 4. kannst du ir zu jeder dieser Lines die Definition hinschreiben, sodass ich guten Einblick bekomme, was tatsächlich passiwert?
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /etc/nginx/ssl/nginx.key \
-    -out /etc/nginx/ssl/nginx.crt \
-    -subj "/CN=cbauer.42.fr"
+RUN openssl req # Startet Zertifikatsbildung im Build
+ -x509 # erstellt dirket ein selbstsegniertes Zertifikat
+ -nodes # privaten Key nicht mit Passwort verschlüsseln
+ -days 365 # Gültigkeitsdauer
+ -newkey rsa:2048 \ # creates new RSA key with 2048 bit
+
+-keyout /etc/nginx/ssl/nginx.key \ # Safes Key here
+-out /etc/nginx/ssl/nginx.crt \ # safes certificate here
+-subj "/CN=cbauer.42.fr" # setzt Subject automatisch, damit kein interaktiver Prompt nötig ist
 
 
 5. COPY nginx.conf /etc/nginx/nginx.conf hier kopiert er ja einfach die config file in den container rein...
-
+# lokaele .conf wird aus Build Kontext in Image kopiert - File ist dann in container vorhanden
 6. was heissen diese Sachen: CMD ["nginx", "-g", "daemon off;"]
 also er führt den service nginx aus, mit dem "nginx", korrekt? aber was machen die anderen sachen?
-
+# "nginx" - nginx startet 
+# -g übergibt eine globale NGINX-direktive per CLI
+# "deamon off" - verhindert Hintergrundmodus, NGINX bleibt im Vordergrund
+#       -- Main process must run in front, sonst beendet der Container
 Wordpress
 
 
 Sonstiges:
 1. ist ein docker container und ein Docker image dasselbe?
 also sage ich hier: COPY nginx.conf /etc/nginx/nginx.conf, die config file wird in den container oder in das image reinkopiert?
+# Image = Vorlage (read only layer), nicht nur config - Dateisystem(installierte Pakete), Metadaten(ENV, EXPOSE, CMD, ENTRYPOINT), Startvorlagen
+# Container verwendet Image 
+# Container ist laufende Instanz von image
+#   - image gibt base OS layer (debian/alpine)
+#   - installierte Pakete(nginx, mariadb, ssl, ...)
+#   - Kopierte Dateien, zb. nginx.conf, entrypoint.sh, Certificates, ...
+#   - Permissions/Owner, die beim Build gesetzt sind
+#   - Build ergebnis von RUN commands
+
+1. PID 1 - alle services der Docker container laufen auf PID1 - Parent process
+    -   falls etwas schief gehen sollte, stürtzt der Docker container aber
+#   - container lebt nur solange wie PID1
+#   - Docker sendet Stop SIgnale an PID1
+#   - PID sollte sauber Prozesse beenden können
+#   - PID sollte idealerweise Zombie Prozesse einsammeln
+Warum Service als PID1?
+#   - wenn Hauptservice crashed, endet der Container sichtbar\
+#   - Orchestration/Restart-Policy kann sauber reagieren
+#   - Logs & Fehler kann man klarem Prozess zuordnen
+#   - man kann auch Services als Child process haben 
+#       aber dann braucht man Supervisor (Signal-Forwarding, Reaping, ...)
+
+
+2. Multi stage Containers - ist soweit ich weiß eine Methode, möglichst Speichereffizient zu haushalten mit den Contianern,
+    dabei wird ein Contianer verwendet, der das komplette Image beinhaltet und den Container baut, aber basically am Ende nur eine Executable dieses Containers kreiert, 
+    in einem neuen Container, welcher nicht mehr das Komplette image beinhaltet, also Pakete die installiert wurden. Am Ende iwrd dann dieser Docker conatiner behalten
+    und der conatiner der alles konstruiert hat wird deleted, so wird speicher gespart, stimmt das?
+#   - man nutzt mehrere 'FROM'-Stufen (stages) in dockerfile
+#   - zweite stage (runtime): schlank und bekommt nur das fertige Ergebnis per 'COPY --from=builder' 
+#   - finale image beinhaltet nicht mehr alle build tools
+#   - es wird nicht "ein COntainer gebaut und dann kopiert", sondern ein Imgae in mehreren Build-Stufen created
+#   - am Ende wird finale runtime-image behalten
+#   - saves starage - smaller & safer images
