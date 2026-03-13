@@ -38,9 +38,27 @@ echo "FLUSH PRIVILEGES;" >> db.sql
 # JA - info für command
 
 Nginx
+1. opensll ist doch das Verschlüsselungsprotokoll oder?
+
+2. warum brauchen wir den folder /etc/nginx/sll? werden da die ssl certificates und der Key gespeichert?
+
+3. was ist die -p flag bei mkdir?
+
+4. kannst du ir zu jeder dieser Lines die Definition hinschreiben, sodass ich guten Einblick bekomme, was tatsächlich passiwert?
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/nginx/ssl/nginx.key \
+    -out /etc/nginx/ssl/nginx.crt \
+    -subj "/CN=cbauer.42.fr"
 
 
+5. COPY nginx.conf /etc/nginx/nginx.conf hier kopiert er ja einfach die config file in den container rein...
+
+6. was heissen diese Sachen: CMD ["nginx", "-g", "daemon off;"]
+also er führt den service nginx aus, mit dem "nginx", korrekt? aber was machen die anderen sachen?
 
 Wordpress
 
 
+Sonstiges:
+1. ist ein docker container und ein Docker image dasselbe?
+also sage ich hier: COPY nginx.conf /etc/nginx/nginx.conf, die config file wird in den container oder in das image reinkopiert?
