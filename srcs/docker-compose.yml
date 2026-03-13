@@ -2,6 +2,7 @@ services:
   
   nginx:
     build: ./requirements/nginx
+    image: nginx:v1.0
     container_name: nginx
     depends_on:
       - wordpress # fuer connectgion port 9000
@@ -16,6 +17,7 @@ services:
 
   mariadb:
     build: ./requirements/mariadb
+    image: mariadb:v1.0
     container_name:  mariadb
     restart: unless-stopped
     volumes:
@@ -34,6 +36,7 @@ services:
 
   wordpress:
     build: ./requirements/wordpress/
+    image: worpdresss:v1.0
     container_name: wordpress
     depends_on:
       - mariadb
@@ -54,7 +57,7 @@ services:
   
   adminer:
     build: ./requirements/bonus/adminer
-    # image: adminer
+    image: adminer:v1.0
     container_name: adminer
     depends_on:
       - mariadb
@@ -66,6 +69,7 @@ services:
     
   ftp:
     build: ./requirements/bonus/FTPserver
+    image: ftp:v1.0
     container_name: ftp
     restart: unless-stopped
     ports:
@@ -77,6 +81,8 @@ services:
       - .env
     networks:
       - my_network
+
+  static website:
 
 volumes:
   db_data:
@@ -97,3 +103,6 @@ networks:
   my_network:
     driver: bridge
 
+
+# falls nicht funktioniert fix ist image names
+# wenn ich den die website machen will, die static website, dann muss ich einen weiteren port in der nginx.conf  aufmachen oder ? einfach eine neue location dann?

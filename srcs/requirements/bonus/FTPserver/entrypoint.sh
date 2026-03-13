@@ -32,8 +32,4 @@ echo "${FTP_USER}" > /etc/vsftpd.userlist # user put to white list - only he can
 
 echo "FTP server starting..."
 
-# tail -f /dev/null
-
-# # exec /usr/sbin/vsftpd /etc/vsftpd.conf #start process
-
 vsftpd /etc/vsftpd.conf
