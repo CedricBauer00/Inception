@@ -30,7 +30,7 @@ sleep 2
 service mariadb stop # stops for clean structure - will be restartet in exec
 sleep 2
 
-exec mysqld_safe --datadir=/var/lib/mysql # process runs as PID1
+exec mysqld --datadir=/var/lib/mysql # process runs as PID1
 
 
 

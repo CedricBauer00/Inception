@@ -29,6 +29,8 @@ services:
       - MYSQL_PASSWORD=${DB_PASSWORD}
     networks:
       - my_network
+# health check for maraidb 
+
 
   wordpress:
     build: ./requirements/wordpress/
@@ -94,3 +96,4 @@ volumes:
 networks:
   my_network:
     driver: bridge
+

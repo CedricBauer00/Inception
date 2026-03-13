@@ -40,7 +40,7 @@ echo "FLUSH PRIVILEGES;" >> db.sql
 Nginx
 1. opensll ist doch das Verschlüsselungsprotokoll oder?
 # nicht das Verschlüsselungsprotokoll, sondern die Library/Toolset.
-#TSL ist Protokoll
+# TSL ist Protokoll
 # OpenSSL erzeugt Certificates/Keys & kann TSL Verbindungen aufbauen
 2. warum brauchen wir den folder /etc/nginx/ssl? werden da die ssl certificates und der Key gespeichert?
 # JA
@@ -66,6 +66,25 @@ also er führt den service nginx aus, mit dem "nginx", korrekt? aber was machen 
 # -g übergibt eine globale NGINX-direktive per CLI
 # "deamon off" - verhindert Hintergrundmodus, NGINX bleibt im Vordergrund
 #       -- Main process must run in front, sonst beendet der Container
+
+Nginx - nginx.conf
+1. was ist der events block und was ist der http block?
+#   - events    -> Verbindungs-/Worker-Verhalten, also permissions?
+#   - http      -> alles fuer http/https
+#   - server    -> Virtual Host (eine Website)
+#   - location  -> Rules fuer bestimmte URL-paths/datatypes
+# events sind low-level network 
+2. was sagt diese Zeile aus? worker_connections 1024;?
+#   - Jeder nginx worker darf bis zu 1024 gleichzeitige Verbindungen halten
+3. kannst du mir bitte zu jeder Zeile des HTTP blocks rausschreiben was passiert?
+4. add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always; # HSTS Header (HTTP Strict Transport Security) - zwingt Browser, nur über HTTPS zu kommunizieren
+5 .ssl_certificate ...nginx.crt;	Zertifikatspfad
+ssl_certificate_key ...nginx.key;	Private-Key-Pfad 
+warum braucht der Server das Certificate und den Key?
+6. root /var/www/html; # <- volume aus docker-compose.yml
+    ist jetzt im container wordpress der nginx root?
+
+
 Wordpress
 
 
@@ -105,3 +124,4 @@ Warum Service als PID1?
 #   - es wird nicht "ein COntainer gebaut und dann kopiert", sondern ein Imgae in mehreren Build-Stufen created
 #   - am Ende wird finale runtime-image behalten
 #   - saves starage - smaller & safer images
+
