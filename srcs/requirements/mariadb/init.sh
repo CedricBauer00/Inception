@@ -23,6 +23,7 @@ echo "CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSW
 echo "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%';" >> db.sql # grants permissions to database
 echo "FLUSH PRIVILEGES;" >> db.sql
 
+
 mysql -u root < db.sql # SQL commands redirect into mysql - execute as root 
 rm -f db.sql
 
@@ -30,7 +31,8 @@ sleep 2
 service mariadb stop # stops for clean structure - will be restartet in exec
 sleep 2
 
-exec mysqld --datadir=/var/lib/mysql # process runs as PID1
+chown -R mysql:mysql /var/lib/mysql
+exec mysqld --user=mysql --datadir=/var/lib/mysql # process runs as PID1
 
 
 

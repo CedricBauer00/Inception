@@ -2,6 +2,8 @@
 
 #set -e #aborts script if command fails
 
+echo "FTP-server starting..."
+
 if ! id -u ${FTP_USER} > /dev/null 2>&1; then #if user id not existing
     useradd -d /var/www/html ${FTP_USER} #create user to home (-m), '-d /var/.../html' -> to wordpress folder
     echo "${FTP_USER}:${FTP_PASSWORD}" | chpasswd # set password
@@ -30,6 +32,6 @@ EOF
 
 echo "${FTP_USER}" > /etc/vsftpd.userlist # user put to white list - only he can login
 
-echo "FTP server starting..."
+echo "FTP-server started!"
 
 vsftpd /etc/vsftpd.conf
