@@ -14,7 +14,7 @@ RUN chmod +x /entrypoint.sh
 
 #Standartport fuer FTP
 EXPOSE 21 21100-21110
-# 21 Datenkanal - Steuerung
-# 21100-21100 Datenkanal - data transfer
+# 21 Datenkanal - Steuerkanal
+# 21100-21100 Datenkanal - data transfer(up/downloads)
 
 ENTRYPOINT ["/entrypoint.sh"]
