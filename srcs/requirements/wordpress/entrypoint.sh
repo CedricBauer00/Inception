@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -e
+
 echo "Waiting for MariaDB to be ready..."
 echo "Waiting for MariaDB connection on host: $WORDPRESS_DB_HOST ..."
 
@@ -13,14 +16,17 @@ cd /var/www/html
 if [ ! -f wp-config.php ]; then
     echo "Creating WordPress configuration..."
 
-    wp core download --allow-root
     # creating wp-config.php from ep-config-sample.php
 	wp config create \
-        	--dbname=$WORDPRESS_DB_NAME \
-      		--dbuser=$WORDPRESS_DB_USER \
-        	--dbpass=$WORDPRESS_DB_PASSWORD \
-        	--dbhost=$WORDPRESS_DB_HOST \
-        	--allow-root
+        --dbname=$WORDPRESS_DB_NAME \
+        --dbuser=$WORDPRESS_DB_USER \
+        --dbpass=$WORDPRESS_DB_PASSWORD \
+        --dbhost=$WORDPRESS_DB_HOST \
+        --allow-root \
+        --extra-php <<-EOF
+        define('WP_REDIS_HOST', 'redis-cache');
+        define('WP_REDIS_PORT', 6379);
+EOF
 
     wp core install \
         --url=$DOMAIN_NAME \
@@ -36,6 +42,12 @@ if [ ! -f wp-config.php ]; then
         --role=author \
         --user_pass=$WP_PASSWORD \
         --allow-root
+
+    wp plugin install redis-cache --allow-root
+
+    wp plugin activate redis-cache --allow-root
+
+    wp redis enable --allow-root
 
     echo "WordPress installed!"
 fi

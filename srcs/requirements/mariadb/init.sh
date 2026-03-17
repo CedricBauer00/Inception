@@ -34,9 +34,6 @@ sleep 2
 chown -R mysql:mysql /var/lib/mysql
 exec mysqld --user=mysql --datadir=/var/lib/mysql # process runs as PID1
 
-
-
-
 # docker exec -it mariadb bash
 # mysql -u root
 # SELECT user, host, plugin, authentication_string, LENGTH(authentication_string) AS hash_length FROM mysql.user WHERE user='root';
