@@ -101,16 +101,15 @@ services:
     networks:
       - my_network
 
-  # portaniner:
-  #   build: ./requirements/bonus/portainer
-  #   image: portainer:v1.0
-  #   container_name: portainer
-  #   restart: unless-stopped
-  #   ports:
-  #     - ""
-  #   networks:
-  #     -my_network
-
+  portaniner:
+    build: ./requirements/bonus/portainer
+    image: portainer:v1.0
+    container_name: portainer
+    restart: unless-stopped
+    ports:
+      - ""
+    networks:
+      -my_network
 volumes:
   db_data:
     driver: local
