@@ -9,7 +9,7 @@ RUN apt-get update -y && apt-get install -y \
     vsftpd \
     && rm -rf /var/lib/apt/lists/*
 
-COPY entrypoint.sh /entrypoint.sh
+COPY ./tools/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 #Standartport fuer FTP

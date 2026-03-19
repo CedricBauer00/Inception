@@ -11,14 +11,14 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -out /etc/nginx/ssl/nginx.crt \
     -subj "/CN=cbauer.42.fr"
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./tools/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 443
 
-# COPY ./index-static.html /
-COPY ./README.html /
+COPY ./tools/index-static.html /
+# COPY ./tools/README.html /
 
-COPY ./init.sh /
+COPY ./tools/init.sh /
 
 # CMD ["chmod", "+x", "/init.sh"]
 RUN chmod +x /init.sh

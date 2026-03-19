@@ -32,6 +32,6 @@ EOF
 
 echo "${FTP_USER}" > /etc/vsftpd.userlist # user put to white list - only he can login
 
-echo "FTP-server started!"
+echo "FTP-server running..."
 
 vsftpd /etc/vsftpd.conf

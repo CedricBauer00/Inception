@@ -11,8 +11,8 @@ RUN wget https://wordpress.org/latest.tar.gz \
     && rm latest.tar.gz
 # downloads and extracts the latest WordPress version into the working directory
 
-COPY php.ini /etc/php/8.2/fpm/php.ini
-COPY entrypoint.sh /entrypoint.sh
+COPY ./tools/php.ini /etc/php/8.2/fpm/php.ini
+COPY ./tools/entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh
 

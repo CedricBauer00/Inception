@@ -31,6 +31,7 @@ fclean: clean
 	docker volume prune -f
 	sudo rm -rf /home/cbauer/data/wordpress
 	sudo rm -rf /home/cbauer/data/mariadb
+	sudo rm -rf /home/cbauer/data/wordpress
 	
 #prune deletes unused data
 # -af delte all unused images - force

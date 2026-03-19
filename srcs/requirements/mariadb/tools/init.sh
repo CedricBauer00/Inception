@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e #if exit code != 0 - abort
 
+MYSQL_PASSWORD=$(cat /run/secrets/mb_password)
+
 echo "Starting MariaDB initialisation..."
 
 if [ ! -d "/var/lib/mysql/mysql" ]; then # folder der internen Datenbank (safes Users, permissions, ...) - if not existing, mariadb has never been initialised
@@ -30,6 +32,8 @@ rm -f db.sql
 sleep 2
 service mariadb stop # stops for clean structure - will be restartet in exec
 sleep 2
+
+echo "MariaDB is up and running..."
 
 chown -R mysql:mysql /var/lib/mysql
 exec mysqld --user=mysql --datadir=/var/lib/mysql # process runs as PID1
