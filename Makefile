@@ -7,6 +7,8 @@ all: build up
 prepare_dirs:
 	mkdir -p /home/cbauer/data/wordpress
 	mkdir -p /home/cbauer/data/mariadb
+	mkdir -p /home/cbauer/data/portainer
+
 
 build: prepare_dirs
 	$(COMPOSE) build

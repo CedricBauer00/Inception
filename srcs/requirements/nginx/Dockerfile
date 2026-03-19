@@ -15,8 +15,17 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 443
 
+# COPY ./index-static.html /
+COPY ./README.html /
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY ./init.sh /
+
+# CMD ["chmod", "+x", "/init.sh"]
+RUN chmod +x /init.sh
+
+ENTRYPOINT ["/init.sh"]
+
+# CMD ["nginx", "-g", "daemon off;"]
 
 
 # NGINX Dockerfile

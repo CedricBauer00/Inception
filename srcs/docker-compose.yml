@@ -107,9 +107,12 @@ services:
     container_name: portainer
     restart: unless-stopped
     ports:
-      - ""
+      - "9001:9001"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
     networks:
-      -my_network
+      - my_network
 
 volumes:
   db_data:
@@ -125,6 +128,13 @@ volumes:
       type: none
       o: bind
       device: /home/cbauer/data/wordpress
+
+  portainer_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/cbauer/data/portainer
 
 networks:
   my_network:
