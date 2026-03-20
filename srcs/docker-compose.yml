@@ -6,6 +6,7 @@ services:
     container_name: nginx
     depends_on:
       - wordpress # fuer connectgion port 9000
+      - portainer
     restart: unless-stopped
     ports:
       - '443:443'
@@ -27,11 +28,8 @@ services:
     environment:
       - MYSQL_DATABASE=${DATABASE_NAME}
       - MYSQL_USER=${DB_USER}
-      # - MYSQL_PASSWORD=${DB_PASSWORD}
-      # - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     secrets:
       - mb_password
-      - mb_root_password
     networks:
       - my_network
 
@@ -53,9 +51,9 @@ services:
       - WORDPRESS_DB_HOST=mariadb
       - WORDPRESS_DB_NAME=${DATABASE_NAME}
       - WORDPRESS_DB_USER=${DB_USER}
-      # - WORDPRESS_DB_PASSWORD=${DB_PASSWORD}
     secrets:
       - mb_password
+      - wp_password
     networks:
       - my_network
   
@@ -83,6 +81,8 @@ services:
       - wp_data:/var/www/html
     env_file:
       - .env
+    secrets:
+      - ftp_password
     networks:
       - my_network
 
@@ -96,7 +96,7 @@ services:
     networks:
       - my_network
 
-  portaniner:
+  portainer:
     build: ./requirements/bonus/portainer
     image: portainer:v1.0
     container_name: portainer
@@ -138,11 +138,10 @@ networks:
 secrets:
   mb_password:
     file: ../secrets/mb_password.txt
-  mb_root_password:
-    file: ../secrets/mb_root_password.txt
   wp_password:
     file: ../secrets/wp_password.txt
-  
+  ftp_password:
+    file: ../secrets/ftp_password.txt  
 
 # falls nicht funktioniert fix ist image names
 # wenn ich den die website machen will, die static website, dann muss ich einen weiteren port in der nginx.conf  aufmachen oder ? einfach eine neue location dann?

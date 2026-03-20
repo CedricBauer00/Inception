@@ -1,6 +1,8 @@
 #!/bin/bash
 
-#set -e #aborts script if command fails
+set -e #aborts script if command fails
+
+FTP_PASSWORD=$(cat /run/secrets/ftp_password)
 
 echo "FTP-server starting..."
 
@@ -32,6 +34,8 @@ EOF
 
 echo "${FTP_USER}" > /etc/vsftpd.userlist # user put to white list - only he can login
 
-echo "FTP-server running..."
+chown -R ${FTP_USER}:${FTP_USER} /var/www/html
+
+echo "FTP-server running...FTP_PASSWORD= $FTP_PASSWORD"
 
 vsftpd /etc/vsftpd.conf

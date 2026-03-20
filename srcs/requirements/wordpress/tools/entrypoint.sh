@@ -2,7 +2,7 @@
 
 set -e
 
-DB_PASSWORD=$(cat /run/secrets/mb_passwdford)
+DB_PASSWORD=$(cat /run/secrets/mb_password)
 WP_PASSWORD=$(cat /run/secrets/wp_password)
 
 echo "Waiting for MariaDB to be ready..."
@@ -55,16 +55,19 @@ EOF
     echo "WordPress installed!"
 fi
 
+touch /var/www/html/FTP-Delete.txt
+echo "Test file for ftp" > /var/www/html/FTP-Delete.txt
+
 # set permissions
 chown -R www-data:www-data /var/www/html
 chmod -R 775 /var/www/html
 
-echo "Connected WP_PASSWORD=$WP_PASSWORD\n"
+echo "Connected!"
 
 # starting PHP-FPM
 exec php-fpm8.2 -F
 
-!!
- docker logs -f wordpress
-cat: /run/secrets/wp_password: No such file or directory
-cat: /run/secrets/wp_password: No such file or directory
+# !!
+#  docker logs -f wordpress
+# cat: /run/secrets/wp_password: No such file or directory
+# cat: /run/secrets/wp_password: No such file or directory
