@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e #if exit code != 0 - abort
+set -e
 
 MYSQL_PASSWORD=$(cat /run/secrets/mb_password)
 

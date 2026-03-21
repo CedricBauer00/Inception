@@ -5,14 +5,12 @@ services:
     image: nginx:v1.0
     container_name: nginx
     depends_on:
-      - wordpress # fuer connectgion port 9000
-      - portainer
+      - wordpress
     restart: unless-stopped
     ports:
       - '443:443'
     volumes:
-      # - ../secrets:/etc/letsencrypt
-      - wp_data:/var/www/html #geben location von volumes an nginx weiter
+      - wp_data:/var/www/html
     networks:
       - my_network
 
@@ -96,19 +94,6 @@ services:
     networks:
       - my_network
 
-  # portainer:
-  #   build: ./requirements/bonus/portainer
-  #   image: portainer:v1.0
-  #   container_name: portainer
-  #   restart: unless-stopped
-  #   ports:
-  #     - "9443:9443"
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - portainer_data:/data
-  #   networks:
-  #     - my_network
-
   rsync:
     build: ./requirements/bonus/rsync
     image: rsync:v1.0
@@ -119,7 +104,7 @@ services:
       - MYSQL_USER=${DB_USER}
     volumes:
       - wp_data:/var/www/html
-      - rsync_data:/home/backup # muss ich das volume extra erstellen??? im makefile?
+      - rsync_data:/home/backup
     secrets:
       - mb_password
     networks:
@@ -140,13 +125,6 @@ volumes:
       o: bind
       device: /home/cbauer/data/wordpress
 
-  # portainer_data:
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     o: bind
-  #     device: /home/cbauer/data/portainer
-
   rsync_data:
     driver: local
     driver_opts:
@@ -165,6 +143,3 @@ secrets:
     file: ../secrets/wp_password.txt
   ftp_password:
     file: ../secrets/ftp_password.txt  
-
-# falls nicht funktioniert fix ist image names
-# wenn ich den die website machen will, die static website, dann muss ich einen weiteren port in der nginx.conf  aufmachen oder ? einfach eine neue location dann?

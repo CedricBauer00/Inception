@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e #aborts script if command fails
+set -e
 
 FTP_PASSWORD=$(cat /run/secrets/ftp_password)
 
@@ -16,7 +16,7 @@ chmod -R 777 /var/www/html
 
 mkdir -p /var/run/vsftpd/empty
 
-cat > /etc/vsftpd.conf <<EOF #create .conf, opens heredoc
+cat > /etc/vsftpd.conf <<EOF
 listen=YES
 listen_port=21
 anonymous_enable=NO

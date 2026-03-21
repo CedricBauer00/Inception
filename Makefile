@@ -2,12 +2,9 @@ COMPOSE=docker compose -f "./srcs/docker-compose.yml"
 
 all: build up
 
-#folder structure auf host
-#safety, die Daten separat zu halten, um ausversehenes loeschen im working environment zu preventen
 prepare_dirs:
 	mkdir -p /home/cbauer/data/wordpress
 	mkdir -p /home/cbauer/data/mariadb
-# 	mkdir -p /home/cbauer/data/portainer
 	mkdir -p /home/cbauer/data/rsync
 
 
@@ -22,7 +19,6 @@ down:
 
 clean:
 	$(COMPOSE) down --volumes --rmi all
-#--volumes // sollen Datenbank inhalte auch geloescht werden?
 
 re: fclean all
 

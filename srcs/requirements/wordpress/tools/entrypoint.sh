@@ -8,14 +8,13 @@ WP_PASSWORD=$(cat /run/secrets/wp_password)
 echo "Waiting for MariaDB to be ready..."
 echo "Waiting for MariaDB connection on host: $WORDPRESS_DB_HOST ..."
 
-while ! mariadb -h$WORDPRESS_DB_HOST -u$WORDPRESS_DB_USER -p$DB_PASSWORD $WORDPRESS_DB_NAME --silent; do # try logging in, if fail
+while ! mariadb -h$WORDPRESS_DB_HOST -u$WORDPRESS_DB_USER -p$DB_PASSWORD $WORDPRESS_DB_NAME --silent; do
     echo "MariaDB is not reachable yet... Retrying in 3s"
     sleep 3
 done
 
 cd /var/www/html
 
-# wordpress configuration creating; if not existent
 if [ ! -f wp-config.php ]; then
     echo "Creating WordPress configuration..."
 
@@ -55,8 +54,8 @@ EOF
     echo "WordPress installed!"
 fi
 
-touch /var/www/html/FTP-Delete.txt
-echo "Test file for ftp" > /var/www/html/FTP-Delete.txt
+# touch /var/www/html/FTP-Delete.txt
+# echo "Test file for ftp" > /var/www/html/FTP-Delete.txt
 
 # set permissions
 chown -R www-data:www-data /var/www/html
@@ -66,8 +65,3 @@ echo "Connected!"
 
 # starting PHP-FPM
 exec php-fpm8.2 -F
-
-# !!
-#  docker logs -f wordpress
-# cat: /run/secrets/wp_password: No such file or directory
-# cat: /run/secrets/wp_password: No such file or directory

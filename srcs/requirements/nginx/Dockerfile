@@ -2,8 +2,6 @@ FROM debian:bookworm
 
 RUN apt-get update -y && apt-get install -y nginx openssl && rm -rf /var/lib/apt/lists/*
 
-# include nginx configuration file
-
 RUN mkdir -p /etc/nginx/ssl
 
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
@@ -16,28 +14,9 @@ COPY ./tools/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 443
 
 COPY ./tools/index-static.html /
-# COPY ./tools/README.html /
 
 COPY ./tools/init.sh /
 
-# CMD ["chmod", "+x", "/init.sh"]
 RUN chmod +x /init.sh
 
 ENTRYPOINT ["/init.sh"]
-
-# CMD ["nginx", "-g", "daemon off;"]
-
-
-# NGINX Dockerfile
-# Gut:
-
-# Basis-Image und Installation.
-# Zertifikate und Konfiguration werden kopiert.
-# Startbefehl ist korrekt.
-# Verbesserung:
-
-# Die COPY-Pfad-Angaben sind eventuell falsch.
-# Beispiel:
-# → Der Build-Kontext ist normalerweise das Verzeichnis, in dem du docker build ausführst.
-# → Nutze relative Pfade ab Build-Kontext, z.B. COPY [nginx.crt](http://_vscodecontentref_/0) /etc/ssl/private/
-# Prüfe, ob die Zertifikate wirklich im Build-Kontext liegen.

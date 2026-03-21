@@ -1,1 +1,0 @@
-Still need to fix the portainer docker-compose plugin issue... Cnot getting anywhere there. FTP permissions - can download from server to local folders but cannot upload or delete anything from Server
