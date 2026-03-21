@@ -52,6 +52,7 @@ services:
     secrets:
       - mb_password
       - wp_password
+      - wp_admin_password
     networks:
       - my_network
   
@@ -142,4 +143,6 @@ secrets:
   wp_password:
     file: ../secrets/wp_password.txt
   ftp_password:
-    file: ../secrets/ftp_password.txt  
+    file: ../secrets/ftp_password.txt
+  wp_admin_password:
+    file: ../secrets/wp_admin_password.txt

@@ -4,6 +4,7 @@ set -e
 
 DB_PASSWORD=$(cat /run/secrets/mb_password)
 WP_PASSWORD=$(cat /run/secrets/wp_password)
+WP_ADMIN_PASSWORD=$(cat /run/secrets/wp_admin_password)
 
 echo "Waiting for MariaDB to be ready..."
 echo "Waiting for MariaDB connection on host: $WORDPRESS_DB_HOST ..."
@@ -53,9 +54,6 @@ EOF
 
     echo "WordPress installed!"
 fi
-
-# touch /var/www/html/FTP-Delete.txt
-# echo "Test file for ftp" > /var/www/html/FTP-Delete.txt
 
 # set permissions
 chown -R www-data:www-data /var/www/html
