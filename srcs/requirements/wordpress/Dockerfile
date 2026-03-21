@@ -10,7 +10,6 @@ RUN wget https://wordpress.org/latest.tar.gz \
     && tar -xzf latest.tar.gz --strip-components=1 \
     && rm latest.tar.gz
 
-COPY ./tools/php.ini /etc/php/8.2/fpm/php.ini
 COPY ./tools/entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /entrypoint.sh

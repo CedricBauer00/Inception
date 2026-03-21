@@ -38,6 +38,6 @@ echo "${FTP_USER}" > /etc/vsftpd.userlist # user put to white list - only he can
 
 chown -R ${FTP_USER}:${FTP_USER} /var/www/html
 
-echo "FTP-server running...FTP_PASSWORD= $FTP_PASSWORD"
+echo "FTP-server running..."
 
 vsftpd /etc/vsftpd.conf

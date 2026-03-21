@@ -1,10 +1,5 @@
-# File Transfer Protocol
-
 FROM debian:bookworm
 
-# vsftpd install (Very Secure FTP Daemon) 
-# secure ftp program for Linux
-# neccessary for running Linux
 RUN apt-get update -y && apt-get install -y \
     vsftpd \
     && rm -rf /var/lib/apt/lists/*

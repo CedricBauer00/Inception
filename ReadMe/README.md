@@ -4,7 +4,7 @@
 
 ## Description
 
-This prject named **inception** is about deepening your knowledge about system administration by using Docker. You will create a small infrastructure containing different sercives with specific rules, given by the subject, by writing Dockerfiles and orhcestrating them using Docker compose. The different services you are using are NGINX, Wordpress and MariaDB, which will all be implemented in seperate Docker containers. The basic goal is to create a personal web server setup with those three services, which will be connected via a custom Docker network.
+This project named **inception** is about deepening your knowledge about system administration by using Docker. You will create a small infrastructure containing different sercives with specific rules, given by the subject, by writing Dockerfiles and orhcestrating them using Docker compose. The different services you are using are NGINX, Wordpress and MariaDB, which will all be implemented in seperate Docker containers. The basic goal is to create a personal web server setup with those three services, which will be connected via a custom Docker network.
 
 ## Instructions
 
@@ -113,6 +113,23 @@ We are using Docker to containerize the services. As previously mentioned the se
 - **Subject Rule**  Forbidden for the main data storage in this project
 
 ## Resources
+Docker:
+
+Docker compose:
+
+MariaDB:
+
+NGINX:
+
+WordPress:
+
+Redis:
+
+Adminer:
+
+FTP:
+
+rsync:
 
 
 ### AI Usage
