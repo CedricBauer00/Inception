@@ -13,6 +13,7 @@ if ! id -u ${FTP_USER} > /dev/null 2>&1; then #if user id not existing
 fi
 
 chmod -R 777 /var/www/html
+chmod +x /var/www/html
 
 mkdir -p /var/run/vsftpd/empty
 
