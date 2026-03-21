@@ -96,16 +96,32 @@ services:
     networks:
       - my_network
 
-  portainer:
-    build: ./requirements/bonus/portainer
-    image: portainer:v1.0
-    container_name: portainer
+  # portainer:
+  #   build: ./requirements/bonus/portainer
+  #   image: portainer:v1.0
+  #   container_name: portainer
+  #   restart: unless-stopped
+  #   ports:
+  #     - "9443:9443"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - portainer_data:/data
+  #   networks:
+  #     - my_network
+
+  rsync:
+    build: ./requirements/bonus/rsync
+    image: rsync:v1.0
+    container_name: rsync
     restart: unless-stopped
-    ports:
-      - "9001:9001"
+    environment:
+      - MYSQL_DATABASE=${DATABASE_NAME}
+      - MYSQL_USER=${DB_USER}
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - wp_data:/var/www/html
+      - rsync_data:/home/backup # muss ich das volume extra erstellen??? im makefile?
+    secrets:
+      - mb_password
     networks:
       - my_network
 
@@ -124,12 +140,19 @@ volumes:
       o: bind
       device: /home/cbauer/data/wordpress
 
-  portainer_data:
+  # portainer_data:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     o: bind
+  #     device: /home/cbauer/data/portainer
+
+  rsync_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/cbauer/data/portainer
+      device: /home/cbauer/data/rsync
 
 networks:
   my_network:

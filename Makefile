@@ -7,7 +7,8 @@ all: build up
 prepare_dirs:
 	mkdir -p /home/cbauer/data/wordpress
 	mkdir -p /home/cbauer/data/mariadb
-	mkdir -p /home/cbauer/data/portainer
+# 	mkdir -p /home/cbauer/data/portainer
+	mkdir -p /home/cbauer/data/rsync
 
 
 build: prepare_dirs
@@ -31,7 +32,7 @@ fclean: clean
 	docker volume prune -f
 	sudo rm -rf /home/cbauer/data/wordpress
 	sudo rm -rf /home/cbauer/data/mariadb
-	sudo rm -rf /home/cbauer/data/wordpress
+	sudo rm -rf /home/cbauer/data/rsync
 	
 #prune deletes unused data
 # -af delte all unused images - force

@@ -12,6 +12,8 @@ if ! id -u ${FTP_USER} > /dev/null 2>&1; then #if user id not existing
     chown -R ${FTP_USER}:${FTP_USER} /var/www/html #grants FTP-user permission for all wordpress data -- recursivly to all subdirectories
 fi
 
+chmod -R 777 /var/www/html
+
 mkdir -p /var/run/vsftpd/empty
 
 cat > /etc/vsftpd.conf <<EOF #create .conf, opens heredoc
