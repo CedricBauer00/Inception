@@ -13,7 +13,7 @@ COPY ./tools/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 443
 
-COPY ./tools/index-static.html /
+# COPY ./tools/index-static.html /
 
 COPY ./tools/init.sh /
 

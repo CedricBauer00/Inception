@@ -57,7 +57,7 @@ fi
 
 # set permissions
 chown -R www-data:www-data /var/www/html
-chmod -R 775 /var/www/html
+chmod -R 777 /var/www/html
 
 echo "Connected!"
 

@@ -12,9 +12,6 @@ if ! id -u ${FTP_USER} > /dev/null 2>&1; then #if user id not existing
     chown -R ${FTP_USER}:${FTP_USER} /var/www/html #grants FTP-user permission for all wordpress data -- recursivly to all subdirectories
 fi
 
-chmod -R 777 /var/www/html
-chmod +x /var/www/html
-
 mkdir -p /var/run/vsftpd/empty
 
 cat > /etc/vsftpd.conf <<EOF
@@ -36,8 +33,6 @@ seccomp_sandbox=NO
 EOF
 
 echo "${FTP_USER}" > /etc/vsftpd.userlist # user put to white list - only he can login
-
-chown -R ${FTP_USER}:${FTP_USER} /var/www/html
 
 echo "FTP-server running..."
 

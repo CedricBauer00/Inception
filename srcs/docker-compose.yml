@@ -111,6 +111,16 @@ services:
     networks:
       - my_network
 
+  static:
+    build: ./requirements/bonus/staticWebsite
+    image: static-website:v1.0
+    container_name: static-site
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    networks:
+      - my_network
+
 volumes:
   db_data:
     driver: local

@@ -2,7 +2,7 @@
 
 echo "Entered inti.sh script"
 
-cp /index-static.html /var/www/html
+# cp /index-static.html /var/www/html
 
 echo "Nginx service running..."
 
